@@ -1,0 +1,41 @@
+name: CDK8s Synth from Subdirectory
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  synth:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install CDK8s CLI
+        run: npm install -g cdk8s-cli
+
+      - name: Run CDK8s Synth in b/
+        working-directory: ./b
+        run: |
+          cdk8s synth
+
+      - name: Copy files to b/rushi directory
+        working-directory: ./b
+        run: |
+          mkdir -p rushi
+          cp dist/*.yaml rushi/
+
+      - name: Commit and push synthesized YAMLs in b/rushi/
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add b/rushi/*.yaml
+          git commit -m "chore: synth YAMLs to b/rushi/" || echo "No changes to commit"
+          git push origin main
