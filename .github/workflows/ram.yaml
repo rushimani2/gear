@@ -42,6 +42,6 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git add b/rushi/*.yaml
+          git add rushi/*.yaml
           git commit -m "chore: synth YAMLs to b/rushi/" || echo "No changes to commit"
           git push origin main
