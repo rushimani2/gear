@@ -19,7 +19,7 @@ metadata:
     app: sql
   name: silly-demo-sql-deployment-c85033da
 spec:
-  replicas: 20
+  replicas: 12
   selector:
     matchLabels:
       app: sql
